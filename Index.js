@@ -21,12 +21,17 @@ app.get("/hola", function(request, response){
   response.send("Hola amigo")
 })
 
+app.get("/contacto", function(request, response){
+  response.send("contact")
+})
+
+
 //vamos a crear una respuesta de formulario o solicitud
 app.post("/hola", function(request, response){
   response.send("Es un post")
 })
 
-app.post("/contact", function(request, response){
+app.post("/contacto", function(request, response){
   response.send("Es una respuesta de formulario.")
 })
 
