@@ -55,6 +55,18 @@ app.get("/about", function(request, response){ // Página "sobre nosotros".
   response.render("about")
 })
 
+app.get("/cards", function(request, response){ // Creamos un página para poder colocar las coleccones de NFT u otros elementos.
+  // Nos permite recoger los datos de usuarios establecidos .
+  response.render(
+    "cards",
+    {cards: [
+      {id: 1, name: "miau", description: "gatete", price: 0.012, avatar: ""},
+      {id: 2, name: "X", description: "símbolo", price: 0.02, avatar: ""},
+      {id: 3, name: "Y", description: "símbolo", price: 0.02, avatar: ""}
+    ]}
+    )
+})
+
 //vamos a crear una respuesta de formulario o solicitud
 app.post("/hola", function(request, response){
   
