@@ -1,16 +1,24 @@
 <h1>formulario de contacto web</h1>
 <p>En esta página podras elaborar un formulario para contactar con el responsable (administrador) de esta web.</p>
 
-<form method="POST" action="/contacto">
-
 <!-- Necesitamos un input email, un textareo y un boton de enviar (submit) -->
-    <label>Email:</label>
-    <input type="email" name="email" />
-
-    <label>Mensaje</label>
-    <textarea name="message"> tu mensaje </textarea> 
-
-    <input type="submit" value="Enviar" />
-
-
+<form method="POST" action="/contacto">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input
+        type="email"
+        name="email"
+        class="form-control"
+        id="exampleInputEmail1"
+        aria-describedby="emailHelp">
+    <div id="emailHelp" class="form-text">Mail al que te vamos a spamear</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Mensaje</label>
+    <textarea
+        class="form-control"
+        name="message"
+        id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>

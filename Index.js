@@ -13,6 +13,8 @@ const app = express()
 app.use(express.urlencoded({
   extended: true
 }))
+app.use(express.static(__dirname + "/public")) // Esta línea es para indicar los archivos estaticos (pulicos) de la web. Aqui dentro almacenaremos los archivos javascrip que se ejecuntan dentro del navegador.
+
 // vamos a establecer ciertas configuraciones de la plantilla de html en nuestra web.
 app.engine("handlebars", exphbs())
 app.set("view engine", "handlebars")
@@ -59,8 +61,8 @@ app.post("/contacto", function(request, response){
   console.log(request.body.message)
 
   // Para el envio de emails deberíamos obtar por serviciosweb ya establecidos que facilitan librerías de código y solo requieren una APY de activación.
-
-  response.send("Mensaje enviado")
+  // Como en la plantilla principal ya le tenemos creado una función de mensage en una variable de plantilla. Además, vamos a otorgarle una categoría o tipo para distinguir entre mensages de alerta y de información.
+  response.render("contact", {message: "Mensaje enviado", message_error: false})
 })
 
 app.post("/login", function(request, response){
@@ -71,7 +73,7 @@ app.post("/login", function(request, response){
     response.redirect("/dashboard")
   } else {
     //response.send("Alguno de los datos introducidos es incorrecto. ¡error!")
-    response.render("login", {message: "Alguno de los datos introducidos es incorrecto. ¡Error!"})
+    response.render("login", {message: "Alguno de los datos introducidos es incorrecto. ¡Error!", message_error: true})
   }
   
 })
