@@ -50,6 +50,11 @@ app.get("/dashboard", function(request, response){ // Creamos un dashboard para 
   response.render("dashboard")
 })
 
+app.get("/about", function(request, response){ // Página "sobre nosotros".
+  // Nos permite recoger los datos de usuarios establecidos.
+  response.render("about")
+})
+
 //vamos a crear una respuesta de formulario o solicitud
 app.post("/hola", function(request, response){
   
@@ -76,6 +81,12 @@ app.post("/login", function(request, response){
     response.render("login", {message: "Alguno de los datos introducidos es incorrecto. ¡Error!", message_error: true})
   }
   
+})
+
+app.post("/about", function(request, response){
+  
+  // vamos a crear un mensaje cuando introduzca el email correctamente.
+  response.render("about", {message: "suscrito correctamente", message_error: false})
 })
 
 // Vamos a crear una variable en la URL web para que nos lleve a la página deseada,. Es una consulta para traerme los datos solicitados. Habitualmente se indica una categoría principal donde s agrupan esos datos.

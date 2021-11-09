@@ -1,2 +1,18 @@
 <h1>Sobre la web</h1>
 <p>En esta página puedes encontrar información detallada sobre información de la web</p>
+
+<!-- Vamos a crear una página con la opción de introducir el email y suscribirse. Una vez completado aparece el mensaje de "suscrito correctamente." -->
+<form method="POST" action="/about">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input
+        type="email"
+        name="email"
+        class="form-control"
+        id="exampleInputEmail1"
+        aria-describedby="emailHelp">
+    <div id="emailHelp" class="form-text">Mail para suscribirte</div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
