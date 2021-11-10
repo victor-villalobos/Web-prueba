@@ -1,0 +1,9 @@
+{
+    "cards": [
+        {"id": 1, "name": "miau", "description": "gatete", "price": 0.012, "avatar": "https://avatars.dicebear.com/api/human/miau1636542328.svg"},
+        {"id": 2, "name": "X", "description": "símbolo", "price": 0.02, "avatar": "https://avatars.dicebear.com/api/human/X1636542328.svg"},
+        {"id": 3, "name": "Y", "description": "símbolo", "price": 0.02, "avatar": "https://avatars.dicebear.com/api/human/Y%20X1636542328.svg"},
+        {"id": 4, "name": "Z", "description": "símbolo", "price": 0.02, "avatar": "https://avatars.dicebear.com/api/human/Z1636542328.svg"},
+        {"id": 5, "name": "Be", "description": "símbolo", "price": 0.05, "avatar": "https://avatars.dicebear.com/api/human/be1636542328.svg"}
+    ]
+}

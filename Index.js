@@ -4,6 +4,9 @@
 const express = require("express")
 // Vamos a requerir tambien el paquete de plantilla de HTML
 const exphbs = require("express-handlebars")
+// Vamos a importar nuestro código de cartas (creación de cartas) y la base de datos
+const {Card, CardRepository} = require("./models/card")
+const {DatabaseService} = require("./services/database")
 // Vamos a metir un módulo que
 const bodyParser = require("body-parser")
 // A continuación creamos nuestra web y la llamamos "app"
@@ -20,6 +23,13 @@ app.engine("handlebars", exphbs())
 app.set("view engine", "handlebars")
 // Ahora debemos de habilitar o abrir un puerto para la aplicación que hemos creado. Para ello vamos a establecer una variable de entorno con una condicional por si no existiese ninguna.
 const port = process.env.PORT || 3000
+
+//Vamos a crear una nueva constante para la base de datos que agrupe a los nuevos datos
+const db = new DatabaseService()
+
+if(!db.exists()) {
+    db.init()
+}
 
 // Creamos una función de autentificación
 function isAuthenticated(user, password) {
@@ -59,13 +69,11 @@ app.get("/cards", function(request, response){ // Creamos un página para poder 
   // Nos permite recoger los datos de usuarios establecidos .
   response.render(
     "cards",
-    {cards: [
-      {id: 1, name: "miau", description: "gatete", price: 0.012, avatar: ""},
-      {id: 2, name: "X", description: "símbolo", price: 0.02, avatar: ""},
-      {id: 3, name: "Y", description: "símbolo", price: 0.02, avatar: ""}
-    ]}
-    )
+    {cards: new CardRepository().getCards()}
+  )
 })
+
+
 
 //vamos a crear una respuesta de formulario o solicitud
 app.post("/hola", function(request, response){
@@ -99,6 +107,17 @@ app.post("/about", function(request, response){
   
   // vamos a crear un mensaje cuando introduzca el email correctamente.
   response.render("about", {message: "suscrito correctamente", message_error: false})
+})
+
+app.post("/cards", function(request, response){
+  const cardName = request.body.name
+  // para crear la carta nueva
+  const newCard = new Card(cardName)
+  // Guardar la carta nueva en la vase de datos
+  const database = new Card (cardName)
+  database.storeOne("cards", newCard)
+  // respuesta enviada
+  response.render("cards")
 })
 
 // Vamos a crear una variable en la URL web para que nos lleve a la página deseada,. Es una consulta para traerme los datos solicitados. Habitualmente se indica una categoría principal donde s agrupan esos datos.
