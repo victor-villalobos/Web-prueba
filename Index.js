@@ -73,6 +73,19 @@ app.get("/cards", function(request, response){ // Creamos un página para poder 
   )
 })
 
+app.get("/cards/:id", function(request, response){ // creamos una ruta que nos lleve a una página donde se vea la carta que hemos seleccionado
+  const card = db.fineOne("cards", request.params.id)
+  response.render("card", {"card": card})
+})
+
+
+app.get("/delete_card/:id", function(request, response) { // Vamos a crear una ruta que nos permita borrar cartas.
+  const instanceId = request.params.id // De esta forma decimos la id asociada a la carta que queremos eliminar.
+  // Eliminamos de la clase (cards) en la base de datos el archivo especificado (instanceId)
+  db.removeOne("cards", instanceId)
+
+  response.redirect("/cards")
+})
 
 
 //vamos a crear una respuesta de formulario o solicitud

@@ -20,10 +20,14 @@
                     <li class="list-group-item">A third item</li>
                 </ul>
                 <div class="card-body">
-                    <a href="/buy/{{id}}" class="card-link">
+                    <!-- Vamos a crear un boton para comprar la carta que nos redirija a una página donde se muestre esa carta y sus características.-->
+                    <a href="/cards/{{id}}" class="card-link">
                         <i class="bi bi-currency-dollar"></i> Buy {{price}} ETH
                     </a>
-                    <a href="#" class="card-link">Another link</a>
+                    <!-- Vamos a crear una opción para borrar cartas, desplegando una modal que nos indique si estamos seguros. -->
+                    <a href="" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteCardModal"> 
+                        <i class="bi bi-x-lg"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -45,17 +49,17 @@
                 <div class="mb-3">
                     <label for="example-card" class="form-label">Nombre de la carta</label>
                     <input type="text" name="name" class="form-control"
-                        aria-describedby="cardHelp">
+                        aria-describedby="cardHelp"/>
                 </div>
                 <div class="mb-3">
                     <label for="example-card" class="form-label">Descripción de la carta</label>
                     <input type="text" name="description" class="form-control"
-                        aria-describedby="cardHelp">
+                        aria-describedby="cardHelp"/>
                 </div>
                 <div class="mb-3">
                     <label for="example-card" class="form-label">Precio</label>
                     <input type="text" name="price" class="form-control"
-                        aria-describedby="cardHelp">
+                        aria-describedby="cardHelp"/>
                 </div>
             </div>
             <div class="modal-footer">
@@ -63,6 +67,25 @@
                 <button type="submit" class="btn btn-primary">Guardar cambios</button>
             </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para eliminar cartas-->
+<div class="modal fade" id="deleteCardModal" tabindex="-1" aria-labelledby="exampledeletemodal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampledeleteCardModal">Eliminar carta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estas seguro de que deseas eliminar esta carta?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
+                <a href="/delete_card" type="button" class="btn btn-danger">Eliminar</a>
+            </div>
         </div>
     </div>
 </div>
