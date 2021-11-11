@@ -2,7 +2,7 @@
 // Creamos la clase "card" 
 
 // Vamos a importar los avatares creados en otro código
-const {v4 : uuidv4} = require("uuid")
+const {v4 : uuidv4} = require("uuid") // Es una importanción de un módulo que hemos instalado.
 const {AvatarService} = require("../services/avatar")
 const {DatabaseService} = require("../services/database")
 
@@ -20,12 +20,12 @@ class CardRepository {
 
 
 class Card {
-    constructor(cardName) { // Este es el constructor de nuevas cartas 
-        this.id = uuidv4()// Vamos a generar un ID único
+    constructor(cardName, description, price) { // Este es el constructor de nuevas cartas y especificamos los aspectos que van a ser susceptibles de modificación
+        this.id = uuidv4()// Vamos a generar un ID único mediante una función de una librería descargada
         this.name = cardName
-        this.price = 0.12
-        this.description = "Descripcion"
-        this.avatar = new AvatarService().getAvatarFromName(this.id)
+        this.description = description
+        this.price = price
+        this.avatar = new AvatarService().getAvatarFromName(this.id) // usamos el id único generado en este código para usar la función de grear un nuevo avatar. Esta funciñon se aloja en el archivo "avatar.js", en la clase especificada.
         console.log("Cargando Card")
     }
 

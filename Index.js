@@ -110,14 +110,16 @@ app.post("/about", function(request, response){
 })
 
 app.post("/cards", function(request, response){
+  // Establecemos las constantes en el formulario que van a permitir introducir datos en la creación de carta y que modifiquen los datos
   const cardName = request.body.name
-  // para crear la carta nueva
-  const newCard = new Card(cardName)
-  // Guardar la carta nueva en la vase de datos
-  const database = new Card (cardName)
-  database.storeOne("cards", newCard)
-  // respuesta enviada
-  response.render("cards")
+  const description = request.body.description
+  const price = request.body.price
+  // para crear la carta nueva. Estamos creando un nuevo objeto carta.
+  const newCard = new Card(cardName, description, price)
+  // Guardar la carta nueva en la base de datos. Ya tenmos la constante que se refiere a esta clase creada al inicio y por tanto solo la tenemos que usar. Primero definimos la clas donde la queremos guardar y despues el objeto (newCard) que queremos incorporar.
+  db.storeOne("cards", newCard)
+  // respuesta enviada. Hacemos una redirección a la página de cartas, de forma que se actualizara automáticamente el repositorio de cartas
+  response.redirect("/cards") 
 })
 
 // Vamos a crear una variable en la URL web para que nos lleve a la página deseada,. Es una consulta para traerme los datos solicitados. Habitualmente se indica una categoría principal donde s agrupan esos datos.

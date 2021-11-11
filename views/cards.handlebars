@@ -20,7 +20,9 @@
                     <li class="list-group-item">A third item</li>
                 </ul>
                 <div class="card-body">
-                    <a href="/buy/{{id}}" class="card-link">Buy {{price}} ETH</a>
+                    <a href="/buy/{{id}}" class="card-link">
+                        <i class="bi bi-currency-dollar"></i> Buy {{price}} ETH
+                    </a>
                     <a href="#" class="card-link">Another link</a>
                 </div>
             </div>
@@ -41,10 +43,19 @@
             <div class="modal-body">
             <form method="POST" action="/cards">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Nombre de la carta</label>
-                    <input type="text" name="user" class="form-control"
+                    <label for="example-card" class="form-label">Nombre de la carta</label>
+                    <input type="text" name="name" class="form-control"
                         aria-describedby="cardHelp">
-                    <div id="cardHelp" class="form-text">El nombre de tu carta</div>
+                </div>
+                <div class="mb-3">
+                    <label for="example-card" class="form-label">Descripción de la carta</label>
+                    <input type="text" name="description" class="form-control"
+                        aria-describedby="cardHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="example-card" class="form-label">Precio</label>
+                    <input type="text" name="price" class="form-control"
+                        aria-describedby="cardHelp">
                 </div>
             </div>
             <div class="modal-footer">

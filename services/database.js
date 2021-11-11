@@ -1,6 +1,6 @@
 // Vamos a crear una base de datos para nuestros avatares ya creados
 
-// Vamos a necesitar una librería existente en javascrip para crear una base de datos.
+// Vamos a necesitar una librería existente en javascrip para crear una base de datos. Es un módulo de gestión de archivos.
 const fs = require("fs")
 
 class DatabaseService {
@@ -16,17 +16,17 @@ class DatabaseService {
         return fs.existsSync(this.DB_FILE_PATH) // Comprueba si existe una base de datos previa devolviendo true o false. Esto evita sobreexcribir datos.
     }
 
-    // Para guardar cartas nuesvas. Dado una clave ("cards) y un objeto, guarda el onjeto en la lista"
+    // Para guardar cartas nuesvas. Creamos una función que dado una clave ("cards) y un objeto, guarda el onjeto en la lista".
     storeOne(key, instance) {
-        const dbData = JSON.parse(fs.readFileSync(this.DB_FILE_PATH))
-        let newDta = { ...dbData}
+        const dbData = JSON.parse(fs.readFileSync(this.DB_FILE_PATH)) //Establecemos una constante que lea un archivo concreto (especificado en paréntesis)de forma sincrónica (si no se lee no avanza el código). Además, como el archivo es de cadena de texto lo transformamos en un objeto json que sea usable por javascrip.
+        let newData = { ...dbData} // establecemos una variable con todas las propiedades especificadas entre llavas. Los puntos son una forma de decir todos las propiedades.
 
-        if (!(key in newData)) {
+        if (!(key in newData)) { // si la clave que usamos no esta en la lista se transforma en una lista
             newData[key] = [instance]
-        } else {
+        } else { // Si la clave que usamos esta en la base de datos lo introducimos al final.
             newData[key].push(instance)
         }
-        fs.writeFileSync(this.DB_FILE_PATH, JSON.stringify(newData))
+        fs.writeFileSync(this.DB_FILE_PATH, JSON.stringify(newData)) // se usa para sobreescribir archivos. Primero se especifica donde vamos a escribir y despues se especifica que datos se van a escribir.
 
         return newData
     }
