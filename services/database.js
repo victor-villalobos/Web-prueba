@@ -26,7 +26,7 @@ class DatabaseService {
         } else { // Si la clave que usamos esta en la base de datos lo introducimos al final.
             newData[key].push(instance)
         }
-        fs.writeFileSync(this.DB_FILE_PATH, JSON.stringify(newData)) // se usa para sobreescribir archivos. Primero se especifica donde vamos a escribir y despues se especifica que datos se van a escribir.
+        fs.writeFileSync(this.DB_FILE_PATH, JSON.stringify(newData, null, "\t")) // se usa para sobreescribir archivos. Primero se especifica donde vamos a escribir y despues se especifica que datos se van a escribir. Normalmente con especificar el nombre de los archivos que queremos copiar es suficiente, pero hemos añadido (, null, " ") para que la base de datos aparezca ordenada y (, null, "\t") para añadirle una tabulación.
 
         return newData
     }
@@ -37,7 +37,7 @@ class DatabaseService {
         newData[key] = data  //  almacenar los datos nuevos en la categoría o key que desamos
         // const jsonData = JSON.stringify(newData) // Guardamos los nuevos datos
 
-        fs.writeFileSync(this.DB_FILE_PATH, JSON.stringify(newData))
+        fs.writeFileSync(this.DB_FILE_PATH, JSON.stringify(newData, null, "\t")) // 
         return newData
     }
 
@@ -47,8 +47,20 @@ class DatabaseService {
         return dbData[key]
     }
 
+    // Vamos a crear una clase que nos permita borrar un archivo en base a una clave dada.
+    removeOne(key, instanceId){
+        const elementList = this.get(key)
+        const itemToRemoveIndex = elementList.findIndex(item => item.id === instanceId) // usamos una función de busqueda por posición index (indice en la lista de objetos) para determinar el objeto que hemos decidido eliminar
+        elementList.splice(itemToRemoveIndex, 1) // Esta función elimina el item o elemento en base a su posición en la lista de objetos y se indica cuantos objetos se eliminanr (en este caso 1)
+        this.store(key, elementList) // Guardamos la nueva lista usando la clase ya creada previamente (store) y especificando en que se basa para sobre escribir.
+    }
 
-
+    // Vamos a crear una clase que nos permita buscar objetos en la base de datos al especificar un parámetro (id en este caso)
+    findOne(key, instanceId) {
+        const elementList = this.get(key) // Creamos una función que busque dento del objeto get que hemos creado.
+        return elementList.find(item => item.id === instanceId) // return elementList.find(funtion (item) {return item.id === instanceId})  
+    }
+    
 }
 
 module.exports = {

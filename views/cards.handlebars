@@ -25,7 +25,7 @@
                         <i class="bi bi-currency-dollar"></i> Buy {{price}} ETH
                     </a>
                     <!-- Vamos a crear una opción para borrar cartas, desplegando una modal que nos indique si estamos seguros. -->
-                    <a href="" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteCardModal"> 
+                    <a href="" class="btn btn-danger float-end delete-card-item" data-card-id="{{id}}" data-bs-toggle="modal" data-bs-target="#deleteCardModal"> 
                         <i class="bi bi-x-lg"></i>
                     </a>
                 </div>
@@ -49,7 +49,7 @@
                 <div class="mb-3">
                     <label for="example-card" class="form-label">Nombre de la carta</label>
                     <input type="text" name="name" class="form-control"
-                        aria-describedby="cardHelp"/>
+                        aria-describedby="cardHelp"/> 
                 </div>
                 <div class="mb-3">
                     <label for="example-card" class="form-label">Descripción de la carta</label>
@@ -84,7 +84,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
-                <a href="/delete_card" type="button" class="btn btn-danger">Eliminar</a>
+                <a href="/delete_card" id="delete-card-button" type="button" class="btn btn-danger">Eliminar</a>
             </div>
         </div>
     </div>

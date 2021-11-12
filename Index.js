@@ -35,6 +35,10 @@ if(!db.exists()) {
 function isAuthenticated(user, password) {
   return user == 'admin' && password == 'admin'
 }
+// Creamos una función para comprobar campos rellenos
+function checkValidCardValues(cardName, description, price) {
+  return cardName && description && price
+}
 // Ahora vamos a crear la acción que ocurre cuando alguien entra en la web. Cuando alguien accede a la web hace un get y entonces se le transmite la información.
 app.get("/", function(request, response){
   //response.send("Hola, esta es mi web con nodemon.")
@@ -74,15 +78,20 @@ app.get("/cards", function(request, response){ // Creamos un página para poder 
 })
 
 app.get("/cards/:id", function(request, response){ // creamos una ruta que nos lleve a una página donde se vea la carta que hemos seleccionado
-  const card = db.fineOne("cards", request.params.id)
-  response.render("card", {"card": card})
+  const card = db.findOne("cards", request.params.id) // Esta variable ejecuta una busqueda en la base de datos dentro de la clase "cards" y buscando el parámetro "id"
+  if (card){
+    response.render("card", {"card": card}) // La respuesta es llevarnos a la págia card que muestra la cartabuscada.
+  } else {
+    response.status(404).send() // status nos devuelve el estado de la página. De forma normal nos manda un estado 200 y como queremos un error tenemos que especificarlo. Para que funcione tenemos que hacer un ".send" para que se envie.
+    return // tenemos que especificar un retorno para parar le proceso, si no se reenviaría y crashea
+  }
+  
 })
 
 
 app.get("/delete_card/:id", function(request, response) { // Vamos a crear una ruta que nos permita borrar cartas.
   const instanceId = request.params.id // De esta forma decimos la id asociada a la carta que queremos eliminar.
-  // Eliminamos de la clase (cards) en la base de datos el archivo especificado (instanceId)
-  db.removeOne("cards", instanceId)
+  db.removeOne("cards", instanceId) // Eliminamos de la clase (cards) en la base de datos el archivo especificado (instanceId)
 
   response.redirect("/cards")
 })
@@ -127,7 +136,19 @@ app.post("/cards", function(request, response){
   const cardName = request.body.name
   const description = request.body.description
   const price = request.body.price
-  // para crear la carta nueva. Estamos creando un nuevo objeto carta.
+  // Para crear la carta nueva. Estamos creando un nuevo objeto carta. Establecemos un condicional basado en una función creada previamente para comprobar si hay algo escrito en los apartados.
+  if (!checkValidCardValues(cardName, description, price)) {
+    response.status(404).render(
+      "cards",
+      {
+        cards: new CardRepository().getCards(),
+        message: "necesitamos que rellenes todos los campos para crear la carta",
+        message_error: true
+      }
+    )
+      return
+  } 
+
   const newCard = new Card(cardName, description, price)
   // Guardar la carta nueva en la base de datos. Ya tenmos la constante que se refiere a esta clase creada al inicio y por tanto solo la tenemos que usar. Primero definimos la clas donde la queremos guardar y despues el objeto (newCard) que queremos incorporar.
   db.storeOne("cards", newCard)
@@ -136,7 +157,6 @@ app.post("/cards", function(request, response){
 })
 
 // Vamos a crear una variable en la URL web para que nos lleve a la página deseada,. Es una consulta para traerme los datos solicitados. Habitualmente se indica una categoría principal donde s agrupan esos datos.
-
 app.get('/users/:user', function(request, response){
   response.send(`Usuario ${request.params.user}`)
 })
