@@ -1,6 +1,22 @@
 <!-- Como la llamada desde Index.js es a la clase card, debemos usar card. .... seguido de la propiedad.-->
-<img src="{{card.avatar}}" />
-<h1>Carta: {{card.name}} / ID:#{{card.id}} </h1>
 
-<p>{{card.description}}</p>
-<p>{{card.price}} ETH</p>
+
+<div class="card">
+<div class="row justify-content-center">
+  <div class="col-offset-4 col-md-4">
+    <img src="{{card.avatar}}" class="img-fluid card-detail-img" />
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-offset-2 col-md-8">
+    <h1>Carta: {{card.name}} #{{card.id}}</h1>
+
+    <p>{{card.description}}</p>
+
+    <p>{{card.price}} ETH</p>
+  </div>
+
+</div>
+
+</div>

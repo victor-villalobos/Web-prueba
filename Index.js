@@ -4,6 +4,8 @@
 const express = require("express")
 // Vamos a requerir tambien el paquete de plantilla de HTML
 const exphbs = require("express-handlebars")
+// vamos a requerir una librería que nos indica caundo hay peticiones a la web o servidor.
+const morgan = require("morgan")
 // Vamos a importar nuestro código de cartas (creación de cartas) y la base de datos
 const {Card, CardRepository} = require("./models/card")
 const {DatabaseService} = require("./services/database")
@@ -11,6 +13,9 @@ const {DatabaseService} = require("./services/database")
 const bodyParser = require("body-parser")
 // A continuación creamos nuestra web y la llamamos "app"
 const app = express()
+
+// Este es el código que nos permite usar la librería instalada. Lo especificado entre paréntesis se usa para determinar que información queremos visualizar.
+app.use(morgan("dev"))
 
 // Este es un codigo que permite que el express pueda obtener información desde la web (ej: formularios.)
 app.use(express.urlencoded({
@@ -136,6 +141,7 @@ app.post("/cards", function(request, response){
   const cardName = request.body.name
   const description = request.body.description
   const price = request.body.price
+  
   // Para crear la carta nueva. Estamos creando un nuevo objeto carta. Establecemos un condicional basado en una función creada previamente para comprobar si hay algo escrito en los apartados.
   if (!checkValidCardValues(cardName, description, price)) {
     response.status(404).render(
@@ -148,6 +154,7 @@ app.post("/cards", function(request, response){
     )
       return
   } 
+
 
   const newCard = new Card(cardName, description, price)
   // Guardar la carta nueva en la base de datos. Ya tenmos la constante que se refiere a esta clase creada al inicio y por tanto solo la tenemos que usar. Primero definimos la clas donde la queremos guardar y despues el objeto (newCard) que queremos incorporar.
