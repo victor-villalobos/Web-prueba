@@ -21,7 +21,7 @@ class CardRepository {
 
 class Card {
     constructor(cardName, description, price) { // Este es el constructor de nuevas cartas y especificamos los aspectos que van a ser susceptibles de modificación
-        this.id = uuidv4()// Vamos a generar un ID único mediante una función de una librería descargada
+        this.id = uuidv4() // Vamos a generar un ID único mediante una función de una librería descargada
         this.name = cardName
         this.description = description
         this.price = price

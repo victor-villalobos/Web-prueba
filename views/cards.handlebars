@@ -4,6 +4,13 @@
 <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCardModal">Crea tu carta</a>
 
 <!-- Vamos a crear un bucle que nos muestre las cartas disponibles -->
+
+{{#if query}}
+    <div class="row">
+        hay {{cards.length}} los resultados para las consulta "{{query}}"
+    </div>
+{{/if}}
+
 <ul>
     <div class="row">
         {{#each cards}}

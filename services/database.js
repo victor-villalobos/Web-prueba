@@ -61,6 +61,19 @@ class DatabaseService {
         return elementList.find(item => item.id === instanceId) // return elementList.find(funtion (item) {return item.id === instanceId})  
     }
     
+    //Vamos a crear una clase para qmodificar objetos.
+    updateOne(key, instance) {
+        let resourceList = this.get(key)
+        const itemToEditIndex = resourceList.findIndex( item => item.id === instance.id)
+        resourceList[itemToEditIndex] = instance
+        this.store(key, resourceList)
+    }
+
+    // Vamos a crear una clas para buscar.
+    search(key, property, query) {
+        const resourceList = this.get(key)
+        return resourceList.filter(resource => resource[property].toLowerCase().includes(query.toLowerCase()))
+    }
 }
 
 module.exports = {

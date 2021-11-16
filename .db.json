@@ -68,6 +68,40 @@
 			"description": "Microorganismo",
 			"price": "10",
 			"avatar": "https://avatars.dicebear.com/api/human/d4538e97-6d99-477e-b3c4-86ffa29e2040.svg"
+		},
+		{
+			"id": "8dd04c4a-341e-4c69-9f04-f62b0a3ff3c3",
+			"avatar": "https://avatars.dicebear.com/api/human/8dd04c4a-341e-4c69-9f04-f62b0a3ff3c3.svg"
+		},
+		{
+			"id": "acaa717c-4afd-4e6a-8dda-343b73bfbcad",
+			"avatar": "https://avatars.dicebear.com/api/human/acaa717c-4afd-4e6a-8dda-343b73bfbcad.svg"
+		},
+		{
+			"id": "0b6810a1-e7e3-4220-9ae4-b7a726275b97",
+			"avatar": "https://avatars.dicebear.com/api/human/0b6810a1-e7e3-4220-9ae4-b7a726275b97.svg"
+		},
+		{
+			"id": "8dfed08d-81d2-41c0-a8b2-9251906c60b0",
+			"avatar": "https://avatars.dicebear.com/api/human/8dfed08d-81d2-41c0-a8b2-9251906c60b0.svg"
+		},
+		{
+			"id": "c070c9d1-4d50-4811-af63-d05011a0ecdf",
+			"avatar": "https://avatars.dicebear.com/api/human/c070c9d1-4d50-4811-af63-d05011a0ecdf.svg"
+		},
+		{
+			"id": "1b8a27cd-562b-4aa6-bf0b-1858d3125fb4",
+			"avatar": "https://avatars.dicebear.com/api/human/1b8a27cd-562b-4aa6-bf0b-1858d3125fb4.svg"
+		},
+		{
+			"id": "18a0317c-3d73-4dbd-9990-a16b89208881",
+			"avatar": "https://avatars.dicebear.com/api/human/18a0317c-3d73-4dbd-9990-a16b89208881.svg",
+			"price": 0.9,
+			"description": "nueva description"
+		},
+		{
+			"id": "18a0317c-3d73-4dbd-9990-a16b89208881",
+			"avatar": "https://avatars.dicebear.com/api/human/18a0317c-3d73-4dbd-9990-a16b89208881.svg"
 		}
 	]
 }

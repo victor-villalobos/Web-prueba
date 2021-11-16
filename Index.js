@@ -6,6 +6,8 @@ const express = require("express")
 const exphbs = require("express-handlebars")
 // vamos a requerir una librería que nos indica caundo hay peticiones a la web o servidor.
 const morgan = require("morgan")
+// Vamos a importar una librería para la gestión de datos.
+const _ = require("lodash")
 // Vamos a importar nuestro código de cartas (creación de cartas) y la base de datos
 const {Card, CardRepository} = require("./models/card")
 const {DatabaseService} = require("./services/database")
@@ -13,6 +15,7 @@ const {DatabaseService} = require("./services/database")
 const bodyParser = require("body-parser")
 // A continuación creamos nuestra web y la llamamos "app"
 const app = express()
+
 
 // Este es el código que nos permite usar la librería instalada. Lo especificado entre paréntesis se usa para determinar que información queremos visualizar.
 app.use(morgan("dev"))
@@ -22,6 +25,9 @@ app.use(express.urlencoded({
   extended: true
 }))
 app.use(express.static(__dirname + "/public")) // Esta línea es para indicar los archivos estaticos (pulicos) de la web. Aqui dentro almacenaremos los archivos javascrip que se ejecuntan dentro del navegador.
+
+// Vamos aestablecer el uso de la librería bodyParser. Esto nos prmite trabajar con API.
+app.use(express.json());
 
 // vamos a establecer ciertas configuraciones de la plantilla de html en nuestra web.
 app.engine("handlebars", exphbs())
@@ -41,8 +47,8 @@ function isAuthenticated(user, password) {
   return user == 'admin' && password == 'admin'
 }
 // Creamos una función para comprobar campos rellenos
-function checkValidCardValues(cardName, description, price) {
-  return cardName && description && price
+function checkValidCardValues(body) {
+  return body.name && body.description && body.price
 }
 // Ahora vamos a crear la acción que ocurre cuando alguien entra en la web. Cuando alguien accede a la web hace un get y entonces se le transmite la información.
 app.get("/", function(request, response){
@@ -75,10 +81,18 @@ app.get("/about", function(request, response){ // Página "sobre nosotros".
 })
 
 app.get("/cards", function(request, response){ // Creamos un página para poder colocar las coleccones de NFT u otros elementos.
-  // Nos permite recoger los datos de usuarios establecidos .
+  console.log(request.query.text)
+  const query = request.query.text
+  let cards
+
+  if(query) {
+      cards = db.search('cards', 'name', query)
+  } else {
+      cards = CardRepository.getCards()
+  }
   response.render(
-    "cards",
-    {cards: new CardRepository().getCards()}
+    'cards',
+    {cards: cards, query: query}
   )
 })
 
@@ -163,10 +177,104 @@ app.post("/cards", function(request, response){
   response.redirect("/cards") 
 })
 
+// Vamos a crear la opción de busqueda
+app.post('/search', (request, response) => {
+  // Buscar en cards por nombre
+  cards = db.search('cards', 'name', request.body.query)
+
+  // Hacer un render con los cartas elegidas
+  response.render('cards', {cards: cards})
+})
+
+
 // Vamos a crear una variable en la URL web para que nos lleve a la página deseada,. Es una consulta para traerme los datos solicitados. Habitualmente se indica una categoría principal donde s agrupan esos datos.
 app.get('/users/:user', function(request, response){
   response.send(`Usuario ${request.params.user}`)
 })
+
+// Api para el recurso cards (GET POST PUT/PATCH DELETE) API Rest JSON
+// para listar un recurso (cards) - get /api/v1/cards
+app.get("/api/v1/cards", function(request, response){ 
+  const cards = new CardRepository().getCards() // traemos las cartas existentes
+  response.send(cards)
+})
+// Muestra una carta - Get /api/v1/cards/:id
+app.get("/api/v1/cards/:id", function(request, response){ 
+  const card = db.findOne("cards", request.params.id)
+  
+  if (!card) {
+    response.status(404).send(
+      {"error:": 404, "message": "No existe el recurso 404"}
+    )
+    return
+  }
+  response.send(card)
+})
+
+// Crear una carta - Post /api/v1/cards
+app.post("/api/v1/cards", function(request, response){ 
+  if (!checkValidCardValues(request.body)) { // establecemos un error si no se rellenan los campos solicitados
+    response.status(400).send(
+      {
+        "error": 400,
+        "message": "No has rellenado todos los datos obligatorios: name, description, price"
+      }
+    )
+    return
+  }
+  
+  const card = new Card( //Establecemos la constante carta para la carta qye vamos a crear gracias a la llamada a "card" (función del constructor).
+    request.body.name,
+    request.body.description,
+    request.body.price
+  )
+  db.storeOne("cards", card) // Guardamos la nueva carta en la sección de "cards"
+  response.status(201).send(card)
+})
+
+// Editar un elemento -  Put /api/v1/cards/:id
+app.put("/api/v1/cards/:id", function(request, response){ 
+  let card = db.findOne("cards", request.params.id)
+  
+  // solo se puede editar nam, price y description. Si me llegan estos valores permitimos editar, pero si no llega ninguno o cualquier otro se devuelve un 404
+  if (!card) {
+    response.status(404).send(
+      {"error:": 404, "message": "No existe el recurso 404"}
+    )
+    return
+  } 
+  
+  const cardRequest = _.pick(request.body, ["name", "price", "description"])
+  
+  if (_.isEmpty(cardRequest)) {
+    response.status(404).send(
+      {"error:": 404, "message": "No existe el recurso 404"}
+    )
+    return
+  } 
+  
+  const cardEdited = {...card, ...cardRequest}
+  db.updateOne("cards", cardEdited)
+  db.storeOne("cards", card)
+  
+  response.send(card)
+})
+
+// Eliminar un elemento -  Delete /api/v1/Cards/:id
+app.delete("/api/v1/cards/:id", function(request, response){ 
+
+  if (!db.findOne("cards", request.params.id)) {
+    response.status(404).send(
+      {"error:": 404, "message": "No existe el recurso 404"}
+    )
+    return
+  }
+  db.removeOne("cards", request.params.id) 
+  response.status(204).send()
+  
+})
+
+
 
 // Vamos a hacer que nuestra aplicación este atenta a los eventos que se producen en el puerto seleccionado.
 app.listen(port, function(){
